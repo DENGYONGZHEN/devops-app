@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  frontend:
+    build:
+      context: . # 构建上下文为当前目录
+      dockerfile: Dockerfile.dev # 指定开发环境 Dockerfile
+    ports:
+      - "5173:5173" # 应用端口
+      - "24678:24678" # Vite HMR 端口（关键！）
+    volumes:
+      - ./:/app # 挂载本地代码
+      - /app/node_modules # 隔离容器依赖
+    environment:
+      - VITE_HOST=0.0.0.0 # 允许外部访问
+      - CHOKIDAR_USEPOLLING=true # 解决文件监听问题
